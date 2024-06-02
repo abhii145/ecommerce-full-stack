@@ -2,21 +2,28 @@
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { ComponentProps, ReactNode } from "react";
 import Image from "next/image";
 
 export const Nav = ({ children }: { children: ReactNode }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const param = usePathname();
+  console.log(param);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+
+
   return (
     <nav className="bg-white shadow-lg text-gray-800 flex justify-between items-center p-4 md:px-8">
       <div className="flex items-center">
-        <Image src="/images/admin.ico" alt="Logo" width={40} height={40} />
+        {param === "/admin" ? (
+          <Image src="/images/admin.ico" alt="Logo" width={40} height={40} />
+        ) : (
+          <Image src="/images/mainPage.ico" alt="Logo-home" width={40} height={40} />
+        )}
       </div>
       <button
         className="md:hidden block text-gray-600 hover:text-gray-900 focus:outline-none"

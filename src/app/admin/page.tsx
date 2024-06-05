@@ -4,35 +4,20 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import db from "@/db/db";
-
-import { formatCurrency, formatNumber } from "@/lib/formatters";
-import React from "react";
+} from "@/components/ui/card"
+import db from "@/db/db"
+import { formatCurrency, formatNumber } from "@/lib/formatters"
 
 async function getSalesData() {
   const data = await db.order.aggregate({
     _sum: { pricePaidInCents: true },
     _count: true,
-  });
-  await wait(100);
+  })
+
   return {
     amount: (data._sum.pricePaidInCents || 0) / 100,
     numberOfSales: data._count,
-  };
-}
-
-function wait(duration: number) {
-  return new Promise((resolve) => setTimeout(resolve, duration));
-}
-
-async function getProductData() {
-  const [activeCount, inactiveCount] = await Promise.all([
-    db.product.count({ where: { isAvailableForPurchase: true } }),
-    db.product.count({ where: { isAvailableForPurchase: false } }),
-  ]);
-
-  return { activeCount, inactiveCount };
+  }
 }
 
 async function getUserData() {
@@ -41,7 +26,7 @@ async function getUserData() {
     db.order.aggregate({
       _sum: { pricePaidInCents: true },
     }),
-  ]);
+  ])
 
   return {
     userCount,
@@ -49,15 +34,25 @@ async function getUserData() {
       userCount === 0
         ? 0
         : (orderData._sum.pricePaidInCents || 0) / userCount / 100,
-  };
+  }
 }
 
-const AdminDashboard = async () => {
+async function getProductData() {
+  const [activeCount, inactiveCount] = await Promise.all([
+    db.product.count({ where: { isAvailableForPurchase: true } }),
+    db.product.count({ where: { isAvailableForPurchase: false } }),
+  ])
+
+  return { activeCount, inactiveCount }
+}
+
+export default async function AdminDashboard() {
   const [salesData, userData, productData] = await Promise.all([
     getSalesData(),
     getUserData(),
     getProductData(),
-  ]);
+  ])
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <DashboardCard
@@ -78,10 +73,14 @@ const AdminDashboard = async () => {
         body={formatNumber(productData.activeCount)}
       />
     </div>
-  );
-};
+  )
+}
 
-export default AdminDashboard;
+type DashboardCardProps = {
+  title: string
+  subtitle: string
+  body: string
+}
 
 function DashboardCard({ title, subtitle, body }: DashboardCardProps) {
   return (
@@ -94,5 +93,5 @@ function DashboardCard({ title, subtitle, body }: DashboardCardProps) {
         <p>{body}</p>
       </CardContent>
     </Card>
-  );
+  )
 }

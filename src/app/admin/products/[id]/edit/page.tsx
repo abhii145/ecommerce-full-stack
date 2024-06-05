@@ -1,20 +1,18 @@
-import React from "react";
-import { ProductForm } from "../../_components/ProductForm";
-import db from "@/db/db";
-import { PageHeader } from "@/app/admin/_components/PageHeader";
+import db from "@/db/db"
+import { PageHeader } from "../../../_components/PageHeader"
+import { ProductForm } from "../../_components/ProductForm"
 
-const EditProductPage = async ({
+export default async function EditProductPage({
   params: { id },
 }: {
-  params: { id: string };
-}) => {
-  const product = await db.product.findUnique({ where: { id } });
+  params: { id: string }
+}) {
+  const product = await db.product.findUnique({ where: { id } })
+
   return (
     <>
-      <PageHeader>Add EditProductPage</PageHeader>
+      <PageHeader>Edit Product</PageHeader>
       <ProductForm product={product} />
     </>
-  );
-};
-
-export default EditProductPage;
+  )
+}

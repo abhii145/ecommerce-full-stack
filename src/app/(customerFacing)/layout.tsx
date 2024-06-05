@@ -3,9 +3,10 @@ import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
+
 export const metadata: Metadata = {
-  title: "Admin",
-  description: "Admin application",
+  title: "Ecommerce",
+  description: "Ecommerce application",
   icons: {
     icon: "/images/mainPage.ico",
   },

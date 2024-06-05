@@ -1,4 +1,3 @@
-PurchaseReceiptEmail;
 import {
   Body,
   Container,
@@ -7,18 +6,18 @@ import {
   Html,
   Preview,
   Tailwind,
-} from "@react-email/components";
-import { OrderInformation } from "./components/OrderInformation";
+} from "@react-email/components"
+import { OrderInformation } from "./components/OrderInformation"
 
 type PurchaseReceiptEmailProps = {
   product: {
-    name: string;
-    imagePath: string;
-    description: string;
-  };
-  order: { id: string; createdAt: Date; pricePaidInCents: number };
-  downloadVerificationId: string;
-};
+    name: string
+    imagePath: string
+    description: string
+  }
+  order: { id: string; createdAt: Date; pricePaidInCents: number }
+  downloadVerificationId: string
+}
 
 PurchaseReceiptEmail.PreviewProps = {
   product: {
@@ -33,7 +32,7 @@ PurchaseReceiptEmail.PreviewProps = {
     pricePaidInCents: 10000,
   },
   downloadVerificationId: crypto.randomUUID(),
-} satisfies PurchaseReceiptEmailProps;
+} satisfies PurchaseReceiptEmailProps
 
 export default function PurchaseReceiptEmail({
   product,
@@ -57,5 +56,5 @@ export default function PurchaseReceiptEmail({
         </Body>
       </Tailwind>
     </Html>
-  );
+  )
 }

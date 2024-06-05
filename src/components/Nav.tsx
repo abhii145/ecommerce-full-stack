@@ -14,15 +14,18 @@ export const Nav = ({ children }: { children: ReactNode }) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-
-
   return (
     <nav className="bg-white shadow-lg text-gray-800 flex justify-between items-center p-4 md:px-8">
       <div className="flex items-center">
         {param === "/admin" ? (
           <Image src="/images/admin.ico" alt="Logo" width={40} height={40} />
         ) : (
-          <Image src="/images/mainPage.ico" alt="Logo-home" width={40} height={40} />
+          <Image
+            src="/images/mainPage.ico"
+            alt="Logo-home"
+            width={40}
+            height={40}
+          />
         )}
       </div>
       <button

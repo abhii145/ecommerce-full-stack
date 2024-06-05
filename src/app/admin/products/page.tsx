@@ -1,6 +1,6 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Button } from "@/components/ui/button"
+import { PageHeader } from "../_components/PageHeader"
+import Link from "next/link"
 import {
   Table,
   TableBody,
@@ -8,25 +8,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { formatCurrency, formatNumber } from "@/lib/formatters";
-import Image from "next/image";
-import { CheckCircle2, MoreVertical, XCircle, Check } from "lucide-react";
-import db from "@/db/db";
+} from "@/components/ui/table"
+import db from "@/db/db"
+import { CheckCircle2, MoreVertical, XCircle } from "lucide-react"
+import { formatCurrency, formatNumber } from "@/lib/formatters"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { PageHeader } from "../_components/PageHeader";
+} from "@/components/ui/dropdown-menu"
 import {
   ActiveToggleDropdownItem,
   DeleteDropdownItem,
-} from "./_components/ProductActions";
+} from "./_components/ProductActions"
 
-const AdminProductPage = () => {
+export default function AdminProductsPage() {
   return (
     <>
       <div className="flex justify-between items-center gap-4">
@@ -37,10 +35,8 @@ const AdminProductPage = () => {
       </div>
       <ProductsTable />
     </>
-  );
-};
-
-export default AdminProductPage;
+  )
+}
 
 async function ProductsTable() {
   const products = await db.product.findMany({
@@ -48,14 +44,13 @@ async function ProductsTable() {
       id: true,
       name: true,
       priceInCents: true,
-      imagePath: true,
       isAvailableForPurchase: true,
       _count: { select: { orders: true } },
     },
     orderBy: { name: "asc" },
-  });
+  })
 
-  if (products.length === 0) return <p>No products found</p>;
+  if (products.length === 0) return <p>No products found</p>
 
   return (
     <Table>
@@ -67,14 +62,13 @@ async function ProductsTable() {
           <TableHead>Name</TableHead>
           <TableHead>Price</TableHead>
           <TableHead>Orders</TableHead>
-          <TableHead>image</TableHead>
           <TableHead className="w-0">
             <span className="sr-only">Actions</span>
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {products.map((product) => (
+        {products.map(product => (
           <TableRow key={product.id}>
             <TableCell>
               {product.isAvailableForPurchase ? (
@@ -92,14 +86,6 @@ async function ProductsTable() {
             <TableCell>{product.name}</TableCell>
             <TableCell>{formatCurrency(product.priceInCents / 100)}</TableCell>
             <TableCell>{formatNumber(product._count.orders)}</TableCell>
-            <TableCell>
-              <Image
-                src={product.imagePath}
-                height={20}
-                width={20}
-                alt={product.imagePath}
-              />
-            </TableCell>
             <TableCell>
               <DropdownMenu>
                 <DropdownMenuTrigger>
@@ -133,5 +119,5 @@ async function ProductsTable() {
         ))}
       </TableBody>
     </Table>
-  );
+  )
 }

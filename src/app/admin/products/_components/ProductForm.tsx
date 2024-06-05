@@ -1,26 +1,27 @@
-"use client";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import React, { useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
-import { Product } from "@prisma/client";
-import { Textarea } from "@/components/ui/textarea";
-import { formatCurrency } from "@/lib/formatters";
-import { Button } from "@/components/ui/button";
-import { addProduct, updateProduct } from "../../_actions/product";
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { formatCurrency } from "@/lib/formatters"
+import { useState } from "react"
+import { addProduct, updateProduct } from "../../_actions/products"
+import { useFormState, useFormStatus } from "react-dom"
+import { Product } from "@prisma/client"
+import Image from "next/image"
 
 export function ProductForm({ product }: { product?: Product | null }) {
   const [error, action] = useFormState(
     product == null ? addProduct : updateProduct.bind(null, product.id),
     {}
-  );
+  )
   const [priceInCents, setPriceInCents] = useState<number | undefined>(
     product?.priceInCents
-  );
+  )
 
   return (
-    <form className="space-y-8" action={action}>
+    <form action={action} className="space-y-8">
       <div className="space-y-2">
         <Label htmlFor="name">Name</Label>
         <Input
@@ -40,7 +41,7 @@ export function ProductForm({ product }: { product?: Product | null }) {
           name="priceInCents"
           required
           value={priceInCents}
-          onChange={(e) => setPriceInCents(Number(e.target.value) || undefined)}
+          onChange={e => setPriceInCents(Number(e.target.value) || undefined)}
         />
         <div className="text-muted-foreground">
           {formatCurrency((priceInCents || 0) / 100)}
@@ -84,15 +85,15 @@ export function ProductForm({ product }: { product?: Product | null }) {
       </div>
       <SubmitButton />
     </form>
-  );
+  )
 }
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
+  const { pending } = useFormStatus()
 
   return (
     <Button type="submit" disabled={pending}>
       {pending ? "Saving..." : "Save"}
     </Button>
-  );
+  )
 }

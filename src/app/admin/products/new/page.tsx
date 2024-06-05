@@ -1,14 +1,11 @@
-import React from "react";
-import { ProductForm } from "../_components/ProductForm";
-import { PageHeader } from "../../_components/PageHeader";
+import { PageHeader } from "../../_components/PageHeader"
+import { ProductForm } from "../_components/ProductForm"
 
-const NewProductPage = () => {
+export default function NewProductPage() {
   return (
     <>
-      <PageHeader>Add NewProductPage</PageHeader>
+      <PageHeader>Add Product</PageHeader>
       <ProductForm />
     </>
-  );
-};
-
-export default NewProductPage;
+  )
+}
